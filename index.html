@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Campus Chronicle – Your Campus. Your Stories. Your Voice.</title>
+  <meta name="description" content="The Campus Chronicle is Crestwood University's premier student-run digital newspaper covering campus news, technology, sports, culture, and student life." />
+  <meta name="keywords" content="campus newspaper, college news, student journalism, Crestwood University, campus chronicle" />
+  <meta property="og:title" content="The Campus Chronicle" />
+  <meta property="og:description" content="Your Campus. Your Stories. Your Voice." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ===== BACK TO TOP BUTTON ===== -->
+<button id="backToTop" aria-label="Back to top" title="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- ===== ARTICLE MODAL OVERLAY ===== -->
+<div id="articleModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-container">
+    <button class="modal-close" id="modalClose" aria-label="Close article">&times;</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- ===== SEARCH OVERLAY ===== -->
+<div id="searchOverlay" class="search-overlay">
+  <div class="search-overlay-inner">
+    <button class="search-close" id="searchClose" aria-label="Close search">&times;</button>
+    <div class="search-box-large">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInputOverlay" placeholder="Search articles, topics, authors…" aria-label="Search articles" autocomplete="off" />
+    </div>
+    <div id="searchResults" class="search-results-container"></div>
+  </div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header" id="siteHeader">
+  <div class="header-top">
+    <div class="container header-top-inner">
+      <div class="header-meta">
+        <span id="currentDate" class="meta-date"></span>
+        <span class="meta-sep">|</span>
+        <span class="meta-edition">Crestwood University · Vol. 48, Issue 12</span>
+        <span class="meta-sep">|</span>
+        <span class="meta-weather">🌤 72°F · Campus</span>
+      </div>
+      <div class="header-social-top">
+        <a href="#" aria-label="Twitter" class="social-icon-top">𝕏</a>
+        <a href="#" aria-label="Instagram" class="social-icon-top">📸</a>
+        <a href="#" aria-label="Facebook" class="social-icon-top">f</a>
+        <a href="#" aria-label="YouTube" class="social-icon-top">▶</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="header-brand">
+    <div class="container header-brand-inner">
+      <div class="logo-wrap">
+        <div class="logo-icon">
+          <span class="logo-icon-c">C</span>
+        </div>
+        <div class="logo-text">
+          <h1 class="logo-title">The Campus Chronicle</h1>
+          <p class="logo-tagline">Your Campus. Your Stories. Your Voice.</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-search-trigger" id="searchTrigger" aria-label="Open search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Search
+        </button>
+        <button class="btn-subscribe" id="headerSubscribeBtn">✉ Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="main-nav" aria-label="Primary navigation">
+    <div class="container nav-inner">
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-list" id="navList" role="list">
+        <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+        <li><a href="#campus-news" class="nav-link" data-category="campus-news" data-section="category">Campus News</a></li>
+        <li><a href="#technology" class="nav-link" data-category="technology" data-section="category">Technology</a></li>
+        <li><a href="#sports" class="nav-link" data-category="sports" data-section="category">Sports</a></li>
+        <li><a href="#culture" class="nav-link" data-category="culture" data-section="category">Culture</a></li>
+        <li><a href="#student-life" class="nav-link" data-category="student-life" data-section="category">Student Life</a></li>
+        <li><a href="#about" class="nav-link" data-section="about">About Us</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<!-- ===== BREAKING NEWS BANNER ===== -->
+<div class="breaking-banner" id="breakingBanner" role="banner" aria-label="Breaking news">
+  <div class="container breaking-inner">
+    <span class="breaking-label">🔴 BREAKING</span>
+    <div class="breaking-ticker-wrap">
+      <div class="breaking-ticker" id="breakingTicker">
+        <span>Crestwood Eagles win the Inter-University Football Championship for the third consecutive year! &nbsp;|&nbsp; Dean announces new AI-powered campus smart assistant launching this semester &nbsp;|&nbsp; Annual Tech Fest 2026 registrations now open — over 2,000 students expected &nbsp;|&nbsp; Cultural Fest "Rang Utsav" scheduled for Nov 15–17 at the Main Amphitheatre &nbsp;|&nbsp; Robotics team qualifies for National Finals in December &nbsp;|&nbsp;</span>
+      </div>
+    </div>
+    <button class="breaking-close" id="breakingClose" aria-label="Close breaking news">✕</button>
+  </div>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main id="mainContent">
+
+  <!-- ===== HOME SECTION ===== -->
+  <section id="home" class="section-home">
+
+    <!-- FEATURED ARTICLE -->
+    <div class="container">
+      <div class="featured-grid">
+        <article class="featured-main" data-article-id="1" role="button" tabindex="0" aria-label="Read featured article">
+          <div class="featured-img-wrap">
+            <img src="img_techfest.png" alt="Students at TechFest 2026 showcasing robotics and AI projects" loading="eager" />
+            <div class="featured-overlay"></div>
+            <span class="badge badge-featured">Featured</span>
+            <span class="badge badge-category category-technology">Technology</span>
+          </div>
+          <div class="featured-content">
+            <h2 class="featured-headline">TechFest 2026: Crestwood's Biggest Innovation Carnival Returns With AI, Robotics &amp; More</h2>
+            <p class="featured-summary">Over 2,000 students from 40 universities converge on Crestwood's Innovation Hub as the annual technology festival kicks off with record-breaking participation. This year's theme, "Building Tomorrow," features 150+ project stalls, live hackathons, and keynote talks from industry legends.</p>
+            <div class="featured-meta">
+              <img src="https://i.pravatar.cc/32?img=12" alt="" class="author-avatar" />
+              <span class="author-name">Priya Sharma</span>
+              <span class="meta-sep">·</span>
+              <time datetime="2026-10-27">Oct 27, 2026</time>
+              <span class="meta-sep">·</span>
+              <span class="read-time">6 min read</span>
+            </div>
+            <button class="btn-read-more" data-article-id="1">Read Full Story →</button>
+          </div>
+        </article>
+
+        <div class="featured-side">
+          <article class="side-card" data-article-id="2">
+            <div class="side-card-img">
+              <img src="img_football.png" alt="Eagles celebrate football championship victory" loading="lazy" />
+              <span class="badge badge-category category-sports">Sports</span>
+            </div>
+            <div class="side-card-content">
+              <h3 class="side-card-headline">Eagles Soar to Historic Third Straight Championship Victory</h3>
+              <div class="side-card-meta">
+                <span class="author-name">Marcus Thompson</span> · <time datetime="2026-10-26">Oct 26, 2026</time>
+              </div>
+              <button class="btn-read-more-sm" data-article-id="2">Read More →</button>
+            </div>
+          </article>
+
+          <article class="side-card" data-article-id="3">
+            <div class="side-card-img">
+              <img src="img_ai.png" alt="Student using AI campus assistant on laptop" loading="lazy" />
+              <span class="badge badge-category category-technology">Technology</span>
+            </div>
+            <div class="side-card-content">
+              <h3 class="side-card-headline">Meet Aria: The AI Campus Assistant Changing How Students Study</h3>
+              <div class="side-card-meta">
+                <span class="author-name">Neha Kapoor</span> · <time datetime="2026-10-25">Oct 25, 2026</time>
+              </div>
+              <button class="btn-read-more-sm" data-article-id="3">Read More →</button>
+            </div>
+          </article>
+
+          <article class="side-card" data-article-id="4">
+            <div class="side-card-img">
+              <img src="img_culture.png" alt="Students performing at Rang Utsav cultural festival" loading="lazy" />
+              <span class="badge badge-category category-culture">Culture</span>
+            </div>
+            <div class="side-card-content">
+              <h3 class="side-card-headline">Rang Utsav 2026: A Kaleidoscope of Culture Descends on Campus</h3>
+              <div class="side-card-meta">
+                <span class="author-name">Ananya Iyer</span> · <time datetime="2026-10-24">Oct 24, 2026</time>
+              </div>
+              <button class="btn-read-more-sm" data-article-id="4">Read More →</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <!-- CATEGORY FILTER -->
+    <div class="category-filter-bar">
+      <div class="container">
+        <div class="filter-wrap">
+          <span class="filter-label">Filter by:</span>
+          <div class="filter-btns" role="group" aria-label="Category filters">
+            <button class="filter-btn active" data-filter="all">All Stories</button>
+            <button class="filter-btn" data-filter="campus-news">Campus News</button>
+            <button class="filter-btn" data-filter="technology">Technology</button>
+            <button class="filter-btn" data-filter="sports">Sports</button>
+            <button class="filter-btn" data-filter="culture">Culture</button>
+            <button class="filter-btn" data-filter="student-life">Student Life</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LATEST NEWS + SIDEBAR -->
+    <div class="container content-layout">
+      <div class="main-column">
+        <div class="section-header">
+          <h2 class="section-title"><span class="title-bar"></span>Latest Stories</h2>
+        </div>
+        <div class="news-grid" id="newsGrid">
+          <!-- Articles injected by JS -->
+        </div>
+        <div class="no-results" id="noResults" style="display:none;">
+          <div class="no-results-icon">🔍</div>
+          <h3>No articles found</h3>
+          <p>Try a different category or search term.</p>
+        </div>
+        <button class="btn-load-more" id="loadMoreBtn">Load More Stories</button>
+      </div>
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar" aria-label="Sidebar">
+
+        <!-- TRENDING -->
+        <div class="sidebar-widget">
+          <div class="widget-header">
+            <h3 class="widget-title"><span class="fire-icon">🔥</span> Trending Now</h3>
+          </div>
+          <ol class="trending-list" id="trendingList"></ol>
+        </div>
+
+        <!-- UPCOMING EVENTS -->
+        <div class="sidebar-widget">
+          <div class="widget-header">
+            <h3 class="widget-title">📅 Upcoming Events</h3>
+          </div>
+          <ul class="events-list" id="eventsList"></ul>
+        </div>
+
+        <!-- MOST READ -->
+        <div class="sidebar-widget">
+          <div class="widget-header">
+            <h3 class="widget-title">👁 Most Read</h3>
+          </div>
+          <ol class="most-read-list" id="mostReadList"></ol>
+        </div>
+
+        <!-- NEWSLETTER WIDGET -->
+        <div class="sidebar-widget newsletter-widget">
+          <div class="widget-header">
+            <h3 class="widget-title">✉ Newsletter</h3>
+          </div>
+          <p class="newsletter-desc">Get top campus stories delivered to your inbox every Monday.</p>
+          <form class="newsletter-form-sidebar" id="sidebarNewsletterForm" novalidate>
+            <div class="form-group">
+              <input type="email" id="sidebarEmail" placeholder="your@email.edu" aria-label="Email address" required />
+              <div class="form-error" id="sidebarEmailError"></div>
+            </div>
+            <button type="submit" class="btn-subscribe-form">Subscribe Free</button>
+          </form>
+          <p class="newsletter-note">⚡ Demo mode: No data is actually sent.</p>
+        </div>
+
+      </aside>
+    </div>
+
+  </section>
+
+  <!-- ===== CATEGORY SECTION (dynamically shown) ===== -->
+  <section id="categorySection" class="section-category" style="display:none;">
+    <div class="container">
+      <div class="category-hero" id="categoryHero">
+        <h2 id="categoryTitle" class="category-page-title"></h2>
+        <p id="categoryDesc" class="category-page-desc"></p>
+      </div>
+      <div class="category-articles-grid" id="categoryArticlesGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT SECTION ===== -->
+  <section id="aboutSection" class="section-about" style="display:none;">
+    <div class="container">
+      <div class="about-hero">
+        <h2 class="about-title">About The Campus Chronicle</h2>
+        <p class="about-tagline">Your Campus. Your Stories. Your Voice.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-card-icon">📰</div>
+          <h3>Our Mission</h3>
+          <p>Founded in 1978, The Campus Chronicle is Crestwood University's award-winning student-run digital newspaper. We provide accurate, timely, and engaging journalism that reflects the diverse voices of our campus community.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🎓</div>
+          <h3>Student-Led</h3>
+          <p>Our 40-member editorial team comprises undergraduate and postgraduate students from all faculties. We believe in training the next generation of journalists through hands-on, real-world reporting experience.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🏆</div>
+          <h3>Our Achievements</h3>
+          <p>Winner of the National College Press Association "Best Digital Newspaper" award three years running. Recognised by the Press Freedom Foundation for our commitment to independent, fearless journalism.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🤝</div>
+          <h3>Join Our Team</h3>
+          <p>We are always looking for passionate writers, photographers, designers, and videographers. Reach out to us at <a href="mailto:join@campuschronicle.edu">join@campuschronicle.edu</a> to apply for the upcoming semester intake.</p>
+        </div>
+      </div>
+      <div class="editorial-board">
+        <h3 class="section-title"><span class="title-bar"></span>Editorial Board 2026</h3>
+        <div class="board-grid">
+          <div class="board-member">
+            <img src="https://i.pravatar.cc/80?img=12" alt="Priya Sharma" />
+            <h4>Priya Sharma</h4>
+            <span>Editor-in-Chief</span>
+          </div>
+          <div class="board-member">
+            <img src="https://i.pravatar.cc/80?img=33" alt="Marcus Thompson" />
+            <h4>Marcus Thompson</h4>
+            <span>Sports Editor</span>
+          </div>
+          <div class="board-member">
+            <img src="https://i.pravatar.cc/80?img=47" alt="Neha Kapoor" />
+            <h4>Neha Kapoor</h4>
+            <span>Tech Editor</span>
+          </div>
+          <div class="board-member">
+            <img src="https://i.pravatar.cc/80?img=56" alt="Ananya Iyer" />
+            <h4>Ananya Iyer</h4>
+            <span>Culture Editor</span>
+          </div>
+          <div class="board-member">
+            <img src="https://i.pravatar.cc/80?img=15" alt="James O'Brien" />
+            <h4>James O'Brien</h4>
+            <span>Campus Reporter</span>
+          </div>
+          <div class="board-member">
+            <img src="https://i.pravatar.cc/80?img=28" alt="Sofia Reyes" />
+            <h4>Sofia Reyes</h4>
+            <span>Photo Editor</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEWSLETTER FULL SECTION ===== -->
+  <section class="newsletter-section" id="newsletterSection">
+    <div class="container">
+      <div class="newsletter-full">
+        <div class="newsletter-text">
+          <h2>Stay in the Loop</h2>
+          <p>Subscribe to The Campus Chronicle newsletter and never miss a campus story, event, or breaking update. Delivered every Monday morning, free forever.</p>
+          <ul class="newsletter-perks">
+            <li>✅ Weekly digest of top stories</li>
+            <li>✅ Exclusive event invites</li>
+            <li>✅ Breaking news alerts</li>
+            <li>✅ Student deals and opportunities</li>
+          </ul>
+        </div>
+        <div class="newsletter-form-wrap">
+          <form class="newsletter-form-full" id="fullNewsletterForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" placeholder="Jane Doe" required />
+                <div class="form-error" id="fullNameError"></div>
+              </div>
+              <div class="form-group">
+                <label for="fullEmail">University Email</label>
+                <input type="email" id="fullEmail" placeholder="jane@crestwood.edu" required />
+                <div class="form-error" id="fullEmailError"></div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="interests">Interests</label>
+              <div class="checkbox-group" role="group" aria-label="Interests">
+                <label class="checkbox-label"><input type="checkbox" value="campus-news" checked /> Campus News</label>
+                <label class="checkbox-label"><input type="checkbox" value="technology" /> Technology</label>
+                <label class="checkbox-label"><input type="checkbox" value="sports" /> Sports</label>
+                <label class="checkbox-label"><input type="checkbox" value="culture" /> Culture</label>
+                <label class="checkbox-label"><input type="checkbox" value="student-life" /> Student Life</label>
+              </div>
+            </div>
+            <button type="submit" class="btn-subscribe-full">Subscribe Now — It's Free!</button>
+            <p class="form-demo-note">⚡ <strong>Demo mode:</strong> This form is for UI demonstration. No data is collected or stored.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer" id="mainFooter">
+  <div class="footer-top">
+    <div class="container footer-grid">
+      <div class="footer-brand-col">
+        <div class="footer-logo">
+          <div class="logo-icon logo-icon-sm"><span class="logo-icon-c">C</span></div>
+          <div>
+            <div class="footer-logo-title">The Campus Chronicle</div>
+            <div class="footer-logo-tag">Your Campus. Your Stories. Your Voice.</div>
+          </div>
+        </div>
+        <p class="footer-about">Crestwood University's award-winning student newspaper since 1978. Independent, fearless, student-powered journalism.</p>
+        <div class="footer-social">
+          <a href="#" class="footer-social-btn" aria-label="Twitter/X">𝕏</a>
+          <a href="#" class="footer-social-btn" aria-label="Instagram">📸</a>
+          <a href="#" class="footer-social-btn" aria-label="Facebook">f</a>
+          <a href="#" class="footer-social-btn" aria-label="YouTube">▶</a>
+          <a href="#" class="footer-social-btn" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+
+      <div class="footer-links-col">
+        <h4 class="footer-col-title">Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#campus-news">Campus News</a></li>
+          <li><a href="#technology">Technology</a></li>
+          <li><a href="#sports">Sports</a></li>
+          <li><a href="#culture">Culture</a></li>
+          <li><a href="#student-life">Student Life</a></li>
+          <li><a href="#about">About Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4 class="footer-col-title">Sections</h4>
+        <ul>
+          <li><a href="#">Opinion</a></li>
+          <li><a href="#">Editorial</a></li>
+          <li><a href="#">Photo Gallery</a></li>
+          <li><a href="#">Video Reports</a></li>
+          <li><a href="#">Podcast</a></li>
+          <li><a href="#">Archives</a></li>
+          <li><a href="#">Advertise With Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact-col">
+        <h4 class="footer-col-title">Contact Us</h4>
+        <address class="footer-contact">
+          <p>📍 Student Media Centre, Block B<br>Crestwood University, CA 94105</p>
+          <p>📞 <a href="tel:+14155550192">+1 (415) 555-0192</a></p>
+          <p>✉ <a href="mailto:editor@campuschronicle.edu">editor@campuschronicle.edu</a></p>
+          <p>🕐 Mon–Fri: 9am – 6pm</p>
+        </address>
+        <div class="footer-newsletter-mini">
+          <p>Quick subscribe:</p>
+          <div class="footer-subscribe-row">
+            <input type="email" id="footerEmail" placeholder="your@email.edu" aria-label="Quick subscribe email" />
+            <button class="btn-footer-sub" id="footerSubBtn">Go</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container footer-bottom-inner">
+      <p>© 2026 The Campus Chronicle · Crestwood University · All rights reserved. <span class="footer-demo-note">| ⚡ Demo Site — Fictional Content</span></p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Editorial Policy</a>
+        <a href="#">Corrections</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
